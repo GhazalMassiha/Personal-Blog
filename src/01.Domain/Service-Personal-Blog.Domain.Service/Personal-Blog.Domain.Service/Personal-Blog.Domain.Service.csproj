@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\02.Infrastructure\DataAccess-Personal-Blog.Infra.Data.Repo.EFCore\Personal-Blog.Infra.Repo.EFCore\Personal-Blog.Infra.Repo.EFCore.csproj" />
+  </ItemGroup>
+
 </Project>

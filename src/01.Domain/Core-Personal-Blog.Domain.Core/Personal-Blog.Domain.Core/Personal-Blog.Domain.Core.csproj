@@ -7,15 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Author\Contracts\AppServiceContracts\" />
-    <Folder Include="Author\Contracts\ServiceContracts\" />
-    <Folder Include="Category\Contracts\AppServiceContracts\" />
-    <Folder Include="Category\Contracts\ServiceContracts\" />
-    <Folder Include="Comment\Contracts\AppServiceContracts\" />
-    <Folder Include="Comment\Contracts\ServiceContracts\" />
-    <Folder Include="Post\Contracts\AppServiceContracts\" />
-    <Folder Include="Post\Contracts\ServiceContracts\" />
-  </ItemGroup>
-
 </Project>

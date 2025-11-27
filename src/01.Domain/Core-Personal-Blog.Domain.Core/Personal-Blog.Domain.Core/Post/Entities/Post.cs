@@ -13,5 +13,7 @@ namespace Personal_Blog.Domain.Core.Post.Entities
 
         public int CategoryId { get; set; }
         public Category.Entities.Category Category { get; set; }
+
+        public List<Comment.Entities.Comment> Comments { get; set; } = new List<Comment.Entities.Comment>();
     }
 }

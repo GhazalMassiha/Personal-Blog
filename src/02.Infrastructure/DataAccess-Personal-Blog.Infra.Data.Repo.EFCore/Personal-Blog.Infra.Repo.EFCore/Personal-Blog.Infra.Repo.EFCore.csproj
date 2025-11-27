@@ -15,4 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\01.Domain\Core-Personal-Blog.Domain.Core\Personal-Blog.Domain.Core\Personal-Blog.Domain.Core.csproj" />
+    <ProjectReference Include="..\..\Db-Personal-Blog.infra.Db.SqlServer.EFCore\Personal-Blog.Infra.SqlServer.EFCore\Personal-Blog.Infra.SqlServer.EFCore.csproj" />
+  </ItemGroup>
+
 </Project>

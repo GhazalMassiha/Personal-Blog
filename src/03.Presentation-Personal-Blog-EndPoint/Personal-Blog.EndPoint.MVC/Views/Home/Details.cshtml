@@ -1,0 +1,60 @@
+﻿@model Personal_Blog.EndPoint.MVC.Models.Home.PostDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Post.Title;
+}
+
+<article class="mb-4">
+    <h2>@Model.Post.Title</h2>
+    <small class="text-muted">تاریخ: @Model.Post.CreatedAt.ToString("yyyy-MM-dd")</small>
+    @if (!string.IsNullOrEmpty(Model.Post.ImageUrl))
+    {
+        <img src="@Model.Post.ImageUrl" class="img-fluid mt-3 mb-3" alt="تصویر شاخص" />
+    }
+    <div>@Html.Raw(Model.Post.Content)</div>
+</article>
+
+<hr />
+<h4>نظرات</h4>
+@if (Model.Comments != null && Model.Comments.Count > 0)
+{
+    @foreach (var c in Model.Comments)
+    {
+        <div class="border p-3 mb-3">
+            <strong>@c.FullName</strong> — امتیاز: @c.Rating <br />
+            <p>@c.Text</p>
+        </div>
+    }
+}
+else
+{
+    <p>هنوز نظری ثبت نشده است.</p>
+}
+
+<hr />
+<h4>ارسال نظر</h4>
+<form asp-action="AddComment" method="post">
+    <input type="hidden" asp-for="NewComment.PostId" />
+    <div class="mb-3">
+        <label asp-for="NewComment.FullName">نام و نام خانوادگی</label>
+        <input asp-for="NewComment.FullName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="NewComment.Email">ایمیل</label>
+        <input asp-for="NewComment.Email" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="NewComment.Rating">امتیاز (۱ تا ۵)</label>
+        <input asp-for="NewComment.Rating" type="number" min="1" max="5" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="NewComment.Text">متن نظر</label>
+        <textarea asp-for="NewComment.Text" class="form-control" rows="4"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">ارسال نظر</button>
+</form>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}

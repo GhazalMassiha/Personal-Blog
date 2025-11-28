@@ -17,6 +17,7 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
             if (p == null) return null;
             return new PostDto
             {
+                Id = p.Id,
                 Title = p.Title,
                 Content = p.Content,
                 ImageUrl = p.ImageUrl,
@@ -31,6 +32,7 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
             return _context.Posts
                 .Select(p => new PostDto
                 {
+                    Id = p.Id,
                     Title = p.Title,
                     Content = p.Content,
                     ImageUrl = p.ImageUrl,
@@ -47,6 +49,7 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
                 .Where(p => p.AuthorId == authorId)
                 .Select(p => new PostDto
                 {
+                    Id = p.Id,
                     Title = p.Title,
                     Content = p.Content,
                     ImageUrl = p.ImageUrl,
@@ -63,6 +66,7 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
                 .Where(p => p.CategoryId == categoryId)
                 .Select(p => new PostDto
                 {
+                    Id = p.Id,
                     Title = p.Title,
                     Content = p.Content,
                     ImageUrl = p.ImageUrl,
@@ -90,16 +94,25 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
 
         public bool Update(int postId, PostCreateDto dto)
         {
-            var affected = _context.Posts
-                .Where(p => p.Id == postId)
-                .ExecuteUpdate(b => b
-                    .SetProperty(p => p.Title, dto.Title)
-                    .SetProperty(p => p.Content, dto.Content)
-                    .SetProperty(p => p.ImageUrl, dto.ImageUrl)
-                    .SetProperty(p => p.CategoryId, dto.CategoryId)
-                );
+            var post = _context.Posts.FirstOrDefault(p => p.Id == postId);
+            if (post == null)
+                return false;
 
-            return affected > 0;
+            if (!string.IsNullOrWhiteSpace(dto.Title))
+                post.Title = dto.Title.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.Content))
+                post.Content = dto.Content.Trim();
+
+            if (dto.ImageUrl != null)
+                post.ImageUrl = dto.ImageUrl;
+
+            post.CategoryId = dto.CategoryId;
+
+            post.UpdatedAt = DateTime.Now;
+
+            _context.Posts.Update(post);
+            return _context.SaveChanges() > 0;
         }
 
         public bool Delete(int postId)

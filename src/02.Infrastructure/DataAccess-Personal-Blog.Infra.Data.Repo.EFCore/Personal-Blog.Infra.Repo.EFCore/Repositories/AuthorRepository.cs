@@ -73,18 +73,33 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
 
         public bool Update(int authorId, AuthorEditDto dto)
         {
-            var affected = _context.Authors
-                .Where(a => a.Id == authorId)
-                .ExecuteUpdate(b => b
-                    .SetProperty(a => a.Username, dto.Username)
-                    .SetProperty(a => a.Password, dto.Password)
-                    .SetProperty(a => a.Email, dto.Email)
-                    .SetProperty(a => a.FirstName, dto.FirstName)
-                    .SetProperty(a => a.LastName, dto.LastName)
-                    .SetProperty(a => a.ImageUrl, dto.ImageUrl)
-                );
+            var author = _context.Authors.FirstOrDefault(a => a.Id == authorId);
+            if (author == null)
+                return false;
 
-            return affected > 0;
+            if (!string.IsNullOrWhiteSpace(dto.Username))
+                author.Username = dto.Username.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.Password))
+                author.Password = dto.Password;
+
+            if (!string.IsNullOrWhiteSpace(dto.Email))
+                author.Email = dto.Email.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.FirstName))
+                author.FirstName = dto.FirstName.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.LastName))
+                author.LastName = dto.LastName.Trim();
+
+            if (dto.ImageUrl != null)
+                author.ImageUrl = dto.ImageUrl.Trim();
+
+
+            author.UpdatedAt = DateTime.Now;
+
+            _context.Authors.Update(author);
+            return _context.SaveChanges() > 0;
         }
 
         public bool Delete(int authorId)

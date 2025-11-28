@@ -1,31 +1,189 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    --main-bg-color: #f4f6f9;
+    --card-bg-color: #ffffff;
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --text-color: #333333;
+    --text-light: #777777;
+    --border-radius: 8px;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+    --transition-fast: 0.2s ease-in-out;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'IRANSans', Tahoma, sans-serif;
+    direction: rtl;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    a:hover {
+        color: var(--primary-hover);
+        text-decoration: none;
+    }
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+    .navbar .navbar-brand {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .navbar .nav-link {
+        color: var(--text-color);
+    }
+
+        .navbar .nav-link:hover {
+            color: var(--primary-hover);
+        }
+
+.card {
+    background-color: var(--card-bg-color);
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px var(--shadow-light);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+    .card img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+.card-body {
+    padding: 1rem;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.card-text {
+    flex: 1 1 auto;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+    }
+
+.table {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px var(--shadow-light);
+    overflow: hidden;
+}
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+img.img-thumbnail {
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+
+/* Forms styling */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form textarea,
+form select {
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+    form input:focus,
+    form select:focus,
+    form textarea:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+/* Alerts / messages */
+.alert {
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+/* Post content styling */
+article h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+article small.text-muted {
+    color: var(--text-light);
+}
+
+article img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+    border-radius: var(--border-radius);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 0.75rem;
+    }
+
+    .container {
+        padding: 0.5rem;
+    }
 }

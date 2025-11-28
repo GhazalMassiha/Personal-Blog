@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\01.Domain\AppService-Personal-Blog.Domain.AppService\Personal-Blog.Domain.AppService\Personal-Blog.Domain.AppService.csproj" />
+    <ProjectReference Include="..\..\01.Domain\Core-Personal-Blog.Domain.Core\Personal-Blog.Domain.Core\Personal-Blog.Domain.Core.csproj" />
+    <ProjectReference Include="..\..\01.Domain\Service-Personal-Blog.Domain.Service\Personal-Blog.Domain.Service\Personal-Blog.Domain.Service.csproj" />
+    <ProjectReference Include="..\..\02.Infrastructure\DataAccess-Personal-Blog.Infra.Data.Repo.EFCore\Personal-Blog.Infra.Repo.EFCore\Personal-Blog.Infra.Repo.EFCore.csproj" />
     <ProjectReference Include="..\..\02.Infrastructure\Db-Personal-Blog.infra.Db.SqlServer.EFCore\Personal-Blog.Infra.SqlServer.EFCore\Personal-Blog.Infra.SqlServer.EFCore.csproj" />
   </ItemGroup>
 

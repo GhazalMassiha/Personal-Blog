@@ -1,0 +1,56 @@
+﻿@model PostViewModel
+@{
+    ViewData["Title"] = "ویرایش پست";
+}
+
+<h2>ویرایش پست</h2>
+
+<form asp-action="EditPost" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">عنوان</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label">متن</label>
+        <textarea asp-for="Content" class="form-control" rows="6"></textarea>
+        <span asp-validation-for("Content", null, "text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">دسته‌بندی</label>
+        <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+            <option value="">-- انتخاب دسته‌بندی --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        <div class="mb-3">
+            <label class="form-label">تصویر فعلی:</label><br />
+            <img src="@Model.ImageUrl" class="img-thumbnail mb-2" style="max-height:200px;" /><br />
+        </div>
+    }
+
+    <div class="mb-3">
+        <label class="form-label">تصویر جدید (اختیاری)</label>
+        <input type="file" name="ImageFile" accept=".jpg,.jpeg,.png" class="form-control" />
+        @if (ViewData.ModelState["ImageFile"] != null)
+        {
+            <span class="text-danger">@ViewData.ModelState["ImageFile"].Errors.First().ErrorMessage</span>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+</form>
+
+<form asp-action="DeletePost" method="post" class="mt-2">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit" class="btn btn-danger" onclick="return confirm('آیا مطمئن هستید؟');">
+        حذف پست
+    </button>
+</form>

@@ -50,6 +50,18 @@ namespace Personal_Blog.Infra.SqlServer.EFCore.Configurations
                 .WithOne(a => a.Author)
                 .HasForeignKey(a => a.AuthorId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(
+               new Author { Id = 1, Username = "ghazal", Password = "passGhazal", Email = "ghazal@gmail.com", FirstName = "غزل", LastName = "مسیحا", ImageUrl = null },
+
+               new Author { Id = 2, Username = "mina", Password = "passMina", Email = "mina@gmail.com", FirstName = "مینا", LastName = "محمدی", ImageUrl = null },
+
+               new Author { Id = 3, Username = "reza", Password = "passReza", Email = "reza@gmail.com", FirstName = "رضا", LastName = "رضایی", ImageUrl = null },
+
+               new Author {Id = 4, Username = "sara", Password = "passSara", Email = "sara@gmail.com", FirstName = "سارا", LastName = "کاظمی", ImageUrl = null },
+
+               new Author {Id = 5, Username = "hossein", Password = "passHossein", Email = "hossein@gmail.com", FirstName = "حسین", LastName = "رضوانی", ImageUrl = null }
+           );
         }
     }
 }

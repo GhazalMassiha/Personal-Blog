@@ -29,6 +29,15 @@ namespace Personal_Blog.Infra.SqlServer.EFCore.Configurations
                 .WithMany(a => a.Categories)
                 .HasForeignKey(a => a.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasData(
+               new Category { Id = 1, Name = "تکنولوژی", AuthorId = 1 },
+               new Category { Id = 2, Name = "سفر", AuthorId = 1 },
+               new Category { Id = 3, Name = "سبک زندگی", AuthorId = 2 },
+               new Category { Id = 4, Name = "برنامه‌نویسی .NET", AuthorId = 3},
+               new Category { Id = 5, Name = "کتاب و مطالعه", AuthorId = 4},
+               new Category { Id = 6, Name = "سلامت و ورزش", AuthorId = 5 }
+           );
         }
     }
 }

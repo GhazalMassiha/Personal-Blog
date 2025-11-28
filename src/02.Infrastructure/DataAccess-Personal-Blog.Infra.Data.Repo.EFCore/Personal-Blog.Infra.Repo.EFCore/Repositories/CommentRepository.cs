@@ -56,6 +56,7 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
             var comment = new Comment()
             {
                 FullName = commentCreateDto.FullName,
+                Email = commentCreateDto.Email,
                 Text = commentCreateDto.Text,
                 Rating = commentCreateDto.Rating,
                 Status = StatusEnum.Pending,

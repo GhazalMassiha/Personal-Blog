@@ -1,0 +1,38 @@
+﻿@model IEnumerable<PostDto>
+@{
+    ViewData["Title"] = "پنل نویسنده";
+}
+
+<h2>پست‌های من</h2>
+<a asp-action="CreatePost" class="btn btn-success mb-3">ایجاد پست جدید</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>عنوان</th>
+            <th>تاریخ</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Title</td>
+                <td>@p.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a asp-action="EditPost" asp-route-id="@p.Id" class="btn btn-sm btn-primary">ویرایش</a>
+                    <form asp-action="DeletePost" method="post" class="d-inline" onsubmit="return confirm('آیا مطمئن هستید؟');">
+                        <input type="hidden" name="id" value="@p.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger mt-2">@TempData["ErrorMessage"]</div>
+}

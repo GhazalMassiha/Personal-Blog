@@ -1,0 +1,39 @@
+﻿@model PostViewModel
+@{
+    ViewData["Title"] = "ایجاد پست جدید";
+}
+
+<h2>ایجاد پست جدید</h2>
+
+<form asp-action="CreatePost" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">عنوان</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label">متن</label>
+        <textarea asp-for="Content" class="form-control" rows="6"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">دسته‌بندی</label>
+        <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+            <option value="">-- انتخاب دسته‌بندی --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">تصویر شاخص (اختیاری)</label>
+        <input type="file" name="ImageFile" accept=".jpg,.jpeg,.png" class="form-control" />
+        @if (ViewData.ModelState["ImageFile"] != null)
+        {
+            <span class="text-danger">@ViewData.ModelState["ImageFile"].Errors.First().ErrorMessage</span>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">ثبت پست</button>
+</form>

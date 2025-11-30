@@ -34,6 +34,11 @@ namespace Personal_Blog.Domain.Service.Services
             return _authorRepository.GetByUsername(username);
         }
 
+        public AuthorLoginDto? GetByUsernameToVerifyPassword(string username)
+        {
+            return _authorRepository.GetByUsernameToVerifyPassword(username);
+        }
+
         public bool Update(int authorId, AuthorEditDto dto)
         {
             return _authorRepository.Update(authorId, dto);

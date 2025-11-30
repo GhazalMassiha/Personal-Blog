@@ -49,13 +49,13 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
 
         public bool Update(int categoryId, CategoryCreateDto dto)
         {
-            var affected = _context.Categories
+            var affectedRows = _context.Categories
                 .Where(c => c.Id == categoryId)
-                .ExecuteUpdate(b => b
+                .ExecuteUpdate(setter => setter
                     .SetProperty(c => c.Name, dto.Name)
                 );
 
-            return affected > 0;
+            return affectedRows > 0;
         }
 
         public bool Delete(int categoryId)

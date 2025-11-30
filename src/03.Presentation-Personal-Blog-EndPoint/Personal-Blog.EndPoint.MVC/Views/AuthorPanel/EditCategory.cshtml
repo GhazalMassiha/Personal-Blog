@@ -1,0 +1,25 @@
+﻿@model Personal_Blog.EndPoint.MVC.Models.AuthorPanel.CategoryViewModel
+@{
+    ViewData["Title"] = "ویرایش دسته";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="EditCategory" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group mb-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ذخیره</button>
+    <a asp-action="Categories" class="btn btn-secondary">انصراف</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

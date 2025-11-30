@@ -14,6 +14,7 @@ using Personal_Blog.Domain.Core.Post.Contracts.AppServiceContracts;
 using Personal_Blog.Domain.Core.Post.Contracts.RepositoryContracts;
 using Personal_Blog.Domain.Core.Post.Contracts.ServiceContracts;
 using Personal_Blog.Domain.Service.Services;
+using Personal_Blog.EndPoint.MVC.Services;
 using Personal_Blog.Infra.Repo.EFCore.Repositories;
 using Personal_Blog.Infra.SqlServer.EFCore.Persistence;
 
@@ -42,18 +43,23 @@ builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 builder.Services.AddScoped<IPostAppService, PostAppService>();
 builder.Services.AddScoped<ICommentAppService, CommentAppService>();
 
+builder.Services.AddScoped<IImageService, ImageService>();
+
 
 builder.Services.AddControllersWithViews();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-        options.ExpireTimeSpan = TimeSpan.FromDays(7);
-        options.SlidingExpiration = true;
-    });
+   .AddCookie(options =>
+   {
+       options.Cookie.SecurePolicy = CookieSecurePolicy.None;  
+       options.Cookie.SameSite = SameSiteMode.Lax;             
+       options.Cookie.HttpOnly = true;
+       options.LoginPath = "/Account/Login";
+       options.LogoutPath = "/Account/Logout";
+       options.ExpireTimeSpan = TimeSpan.FromDays(7);
+       options.SlidingExpiration = true;
+   });
 
 var app = builder.Build();
 

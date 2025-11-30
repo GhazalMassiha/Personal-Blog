@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Personal_Blog.Domain.Core.Comment.Contracts.AppServiceContracts;
 using Personal_Blog.Domain.Core.Comment.DTOs;
 using Personal_Blog.Domain.Core.Post.Contracts.AppServiceContracts;
@@ -59,15 +59,19 @@ public class HomeController : Controller
         };
         return View(vm);
     }
-
     [HttpPost]
-    public IActionResult AddComment([FromForm] CommentCreateDto dto)
+    public IActionResult AddComment([Bind(Prefix = "NewComment")] CommentCreateDto dto)
     {
         var res = _commentApp.Create(dto);
         if (!res.IsSuccess)
         {
             TempData["ErrorMessage"] = res.Message;
         }
+        else
+        {
+            TempData["message"] = "با موفقیت ذخیر شد";
+        }
+
         return RedirectToAction("Details", "Home", new { id = dto.PostId });
     }
 }

@@ -33,7 +33,7 @@ else
 
 <hr />
 <h4>ارسال نظر</h4>
-<form asp-action="AddComment" method="post">
+<form asp-controller="home" asp-action="AddComment" method="post">
     <input type="hidden" asp-for="NewComment.PostId" />
     <div class="mb-3">
         <label asp-for="NewComment.FullName">نام و نام خانوادگی</label>
@@ -57,4 +57,8 @@ else
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">@TempData["message"]</div>
 }

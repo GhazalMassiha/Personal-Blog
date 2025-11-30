@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Personal_Blog.EndPoint.MVC.Models.AuthorPanel.CategoryViewModel>
+@{
+    ViewData["Title"] = "دسته‌بندی‌ها";
+}
+
+<h2>دسته‌بندی‌ها</h2>
+
+<a asp-action="CreateCategory" class="btn btn-success mb-3">دسته جدید</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>نام</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Name</td>
+                <td>
+                    <a asp-action="EditCategory" asp-route-id="@c.Id" class="btn btn-sm btn-primary">ویرایش</a>
+                    <form asp-action="DeleteCategory" method="post" class="d-inline" onsubmit="return confirm('مطمئنی حذف شود؟');">
+                        <input type="hidden" name="id" value="@c.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger mt-2">@TempData["ErrorMessage"]</div>
+}

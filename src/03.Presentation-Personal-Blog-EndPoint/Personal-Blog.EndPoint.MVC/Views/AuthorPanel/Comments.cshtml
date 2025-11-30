@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Personal_Blog.EndPoint.MVC.Models.AuthorPanel.CommentModerationViewModel>
+@using Personal_Blog.Domain.Core.Comment.Enums
+
+@{
+    ViewData["Title"] = "مدیریت کامنت‌ها";
+}
+
+<h2>کامنت‌ها</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>نام</th>
+            <th>نظر</th>
+            <th>امتیاز</th>
+            <th>پست</th>
+            <th>تاریخ</
+            <th>وضعیت</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.FullName</td>
+                <td>@c.Text</td>
+                <td>@c.Rating</td>
+                <td>@c.PostTitle</td>
+                <td>@c.CreatedAt.ToString("yyyy‑MM‑dd HH:mm")</td>
+                <td>@c.Status</td>
+                <td>
+                    @if (c.Status == StatusEnum.Pending)
+                    {
+                        <form asp-action="ConfirmComment" method="post" class="d-inline">
+                            <input type="hidden" name="commentId" value="@c.Id" />
+                            <button type="submit" class="btn btn-sm btn-success">تأیید</button>
+                        </form>
+                        <form asp-action="RejectComment" method="post" class="d-inline">
+                            <input type="hidden" name="commentId" value="@c.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger">رد</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger mt-2">@TempData["ErrorMessage"]</div>
+}

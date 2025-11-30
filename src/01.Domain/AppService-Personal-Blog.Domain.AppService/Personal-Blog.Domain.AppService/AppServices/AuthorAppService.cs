@@ -36,6 +36,18 @@ namespace Personal_Blog.Domain.AppService.AppServices
             return Result<List<AuthorDto>>.Success("لیست نویسندگان دریافت شد.", list);
         }
 
+        public Result<bool> VerifyPassword(string username, string password)
+        {
+            var author = _authorService.GetByUsernameToVerifyPassword(username);
+            if (author == null)
+                return Result<bool>.Failure("نام کاربری یا رمز عبور اشتباه است.");
+
+            if (author.Password != password)
+                return Result<bool>.Failure("نام کاربری یا رمز عبور اشتباه است.");
+
+            return Result<bool>.Success("رمز عبور صحیح است.", true);
+        }
+
         public Result<bool> Create(AuthorCreateDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.Username) || string.IsNullOrWhiteSpace(dto.Password))

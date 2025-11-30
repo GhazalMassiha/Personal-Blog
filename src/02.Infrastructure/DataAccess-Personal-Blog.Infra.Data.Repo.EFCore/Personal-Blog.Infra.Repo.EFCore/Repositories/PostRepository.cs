@@ -94,25 +94,16 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
 
         public bool Update(int postId, PostCreateDto dto)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.Id == postId);
-            if (post == null)
-                return false;
+            var affectedRows = _context.Posts
+                .Where(p => p.Id == postId)
+                .ExecuteUpdate(setter => setter
+                     .SetProperty(p => p.Title, dto.Title)
+                     .SetProperty(p => p.Content, dto.Content)
+                     .SetProperty(p => p.ImageUrl, dto.ImageUrl)
+                     .SetProperty(p => p.CategoryId, dto.CategoryId)
+                );
 
-            if (!string.IsNullOrWhiteSpace(dto.Title))
-                post.Title = dto.Title.Trim();
-
-            if (!string.IsNullOrWhiteSpace(dto.Content))
-                post.Content = dto.Content.Trim();
-
-            if (dto.ImageUrl != null)
-                post.ImageUrl = dto.ImageUrl;
-
-            post.CategoryId = dto.CategoryId;
-
-            post.UpdatedAt = DateTime.Now;
-
-            _context.Posts.Update(post);
-            return _context.SaveChanges() > 0;
+            return affectedRows > 0;
         }
 
         public bool Delete(int postId)

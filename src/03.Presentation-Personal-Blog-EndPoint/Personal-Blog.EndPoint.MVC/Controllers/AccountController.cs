@@ -1,22 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Personal_Blog.Domain.Core.Author.Contracts.AppServiceContracts;
 using Personal_Blog.Domain.Core.Author.DTOs;
 using Personal_Blog.EndPoint.MVC.Models.Account;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
-public class AccountController : Controller
+public class AccountController(IAuthorAppService authorApp) : Controller
 {
-    private readonly IAuthorAppService _authorApp;
-
-    public AccountController(IAuthorAppService authorApp)
-    {
-        _authorApp = authorApp;
-    }
-
     [HttpGet]
     public IActionResult Register() => View();
 
@@ -33,7 +25,7 @@ public class AccountController : Controller
             ImageUrl = vm.ImageUrl
         };
 
-        var res = _authorApp.Create(dto);
+        var res = authorApp.Create(dto);
 
         if (!res.IsSuccess)
         {
@@ -43,6 +35,7 @@ public class AccountController : Controller
 
         return RedirectToAction("Login");
     }
+
 
     [HttpGet]
     public IActionResult Login(string returnUrl = null)
@@ -54,25 +47,45 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel vm, string? returnUrl = null)
     {
-        var authorRes = _authorApp.GetByUsername(vm.Username);
-
-        if (!authorRes.IsSuccess)
+        if (!ModelState.IsValid)
         {
-            ModelState.AddModelError("", "نام کاربری یا رمز عبور اشتباه است.");
-
             return View(vm);
         }
 
+        // 1. ابتدا بررسی نام کاربری
+        var authorRes = authorApp.GetByUsername(vm.Username);
+        if (!authorRes.IsSuccess || authorRes.Data == null)
+        {
+            ModelState.AddModelError("", "نام کاربری یا رمز عبور اشتباه است.");
+            return View(vm);
+        }
+
+        // 2. سپس اعتبارسنجی پسورد
+        var verifyRes = authorApp.VerifyPassword(vm.Username, vm.Password);
+        if (!verifyRes.IsSuccess)
+        {
+            ModelState.AddModelError("", verifyRes.Message);
+            return View(vm);
+        }
+
+        var user = authorRes.Data;
+
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, "1"),
-            new Claim(ClaimTypes.Name, vm.Username),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Username),
         };
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principal = new ClaimsPrincipal(identity);
 
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-               new ClaimsPrincipal(identity));
+        var properties = new AuthenticationProperties
+        {
+            IsPersistent = true,
+            ExpiresUtc = DateTime.UtcNow.AddDays(5)
+        };
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, properties);
 
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             return Redirect(returnUrl);
@@ -107,7 +120,7 @@ public class AccountController : Controller
             ImageUrl = vm.ImageUrl
         };
 
-        var res = _authorApp.Update(authorId, editDto);
+        var res = authorApp.Update(authorId, editDto);
 
         if (!res.IsSuccess)
         {

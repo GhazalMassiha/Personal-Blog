@@ -29,10 +29,6 @@
     <div class="mb-3">
         <label class="form-label">تصویر شاخص (اختیاری)</label>
         <input type="file" name="ImageFile" accept=".jpg,.jpeg,.png" class="form-control" />
-        @if (ViewData.ModelState["ImageFile"] != null)
-        {
-            <span class="text-danger">@ViewData.ModelState["ImageFile"].Errors.First().ErrorMessage</span>
-        }
     </div>
 
     <button type="submit" class="btn btn-primary">ثبت پست</button>

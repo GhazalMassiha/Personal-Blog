@@ -16,6 +16,7 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
         {
             return _context.Comments.Where(c => c.Id == commentId).Select(c => new CommentDto()
             {
+                Id = c.Id,
                 FullName = c.FullName,
                 Text = c.Text,
                 Rating = c.Rating,
@@ -29,6 +30,7 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
         {
             return _context.Comments.Where(c => c.PostId == postId).Select(c => new CommentDto()
             {
+                Id = c.Id,
                 FullName = c.FullName,
                 Text = c.Text,
                 Rating = c.Rating,
@@ -42,6 +44,7 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
         {
             return _context.Comments.Select(c => new CommentDto()
             {
+                Id = c.Id,
                 FullName = c.FullName,
                 Text = c.Text,
                 Rating = c.Rating,

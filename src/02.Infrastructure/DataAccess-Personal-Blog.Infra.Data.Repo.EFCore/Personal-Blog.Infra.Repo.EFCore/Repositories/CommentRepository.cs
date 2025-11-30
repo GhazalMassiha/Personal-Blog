@@ -72,16 +72,20 @@ namespace Personal_Blog.Infra.Repo.EFCore.Repositories
 
         public bool ChangeStatusToConfirmed(int commentId)
         {
-            var result = _context.Comments.Where(c => c.Id == commentId).ExecuteUpdate(setter => setter.SetProperty(
-                c => c.Status, StatusEnum.Confirmed));
+            var result = _context.Comments
+                .Where(c => c.Id == commentId)
+                .ExecuteUpdate(setter => setter
+                .SetProperty(c => c.Status, StatusEnum.Confirmed));
 
             return result > 0;
         }
 
         public bool ChangeStatusToRejected(int commentId)
         {
-            var result = _context.Comments.Where(c => c.Id == commentId).ExecuteUpdate(setter => setter.SetProperty(
-                c => c.Status, StatusEnum.Rejected));
+            var result = _context.Comments
+                .Where(c => c.Id == commentId)
+                .ExecuteUpdate(setter => setter
+                .SetProperty(c => c.Status, StatusEnum.Rejected));
 
             return result > 0;
         }

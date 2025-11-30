@@ -52,15 +52,15 @@ public class AccountController(IAuthorAppService authorApp) : Controller
             return View(vm);
         }
 
-        // 1. ابتدا بررسی نام کاربری
+
         var authorRes = authorApp.GetByUsername(vm.Username);
         if (!authorRes.IsSuccess || authorRes.Data == null)
         {
-            ModelState.AddModelError("", "نام کاربری یا رمز عبور اشتباه است.");
+            ModelState.AddModelError("", authorRes.Message);
             return View(vm);
         }
 
-        // 2. سپس اعتبارسنجی پسورد
+
         var verifyRes = authorApp.VerifyPassword(vm.Username, vm.Password);
         if (!verifyRes.IsSuccess)
         {
